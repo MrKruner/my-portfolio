@@ -1,0 +1,363 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    list-style: none;
+    font-family: 'Poppins', sans-serif;
+    text-decoration: none;
+    scroll-behavior: smooth;
+}
+
+:root{
+    --bg1-color:black;
+    --bg2-color:rgb(21, 20, 20);
+}
+
+body{
+    background-color: black;
+}
+
+header{
+    position: fixed;
+    width: 100%;
+    top: 0;
+    right: 0;
+    display: flex;
+    z-index: 1000;
+    align-items: center;
+    margin-top: 60px;
+    background: transparent;
+}
+header img{
+    margin-left: 30px;
+}
+
+.title-b{
+    margin-left: 60px;
+    color: white;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.title-s{
+    margin-left: 60px;
+    color: orangered;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.sub-title-b{
+    margin-left: 30px;
+    color: white;
+    font-size: 40px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.sub-title-s{
+    margin-left: 30px;
+    margin-top: 30px;
+    text-align: center;
+    color: orangered;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.navlist{
+    flex:1 ;
+    display: flex;
+    padding: 0;
+    margin: 0;
+    justify-content: center;
+}
+
+.navlist li a{
+    display: inline-block;
+    padding: 10px;
+    color: white;
+    font-weight: 800;
+    text-shadow: 4px 4px 5px orangered;
+    transition: color 0.5s;
+}
+
+.navlist a:hover{
+    color: orangered;
+}
+
+
+.social-media{
+    font-size: 20px;
+    margin-left: 10px;
+}
+
+.social-media a i{
+    color: white;
+    margin-right: 20px;
+    transition: color 0.5s;
+}
+
+.social-media a i:hover{
+    color: orangered;
+}
+/*----------end-header--------------*/
+
+/*----------banner-------------*/
+.banner{
+    min-height: 100vh;
+    width: 100%;
+    height: 100%;
+    background-image: url('../image/img-header.jpg');
+    background-position: center;
+    background-size: cover;
+    display: block;
+}
+
+.banner-content{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    text-align: center;
+    transform: translate(-50%,-50%);
+    width: 100%;
+    font-size: 40px;
+}
+
+.banner-content p{
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.banner-content h1{
+    color: orangered;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+/*-----Why you choose us---*/
+.info{
+    min-height: 80vh;
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg1-color);
+    margin-left: 10px;
+    margin-right: 10px;
+    text-align: center;
+}
+
+.reason{
+    text-align: center;
+    display:flex;
+    justify-content: space-around;
+    column-gap: 200px;
+    padding: 50px;
+}
+
+.reason div{
+    text-align: center;
+    margin-left: -60px;
+}
+
+.reason div h4{
+    font-size: 20px;
+    color: white;
+}
+
+.reason div p{
+    font-weight: 500;
+    color: white;
+}
+
+.reason i{
+    color: orangered;
+    font-size: 50px;
+    line-height: 70px;
+    background-color: rgb(40, 39, 39);
+    border-radius: 50%;
+    padding: 10px;
+    text-align: center;
+    height: 90px;
+    width: 90px;
+    margin-bottom: 30px;
+
+}
+
+.reason i:hover{
+    background-color: aliceblue;
+}
+
+/*-----------courses--------*/
+.khung{
+    padding: 100px 18%;
+}
+
+.services{
+    min-height: 100vh;
+    width: 100%;
+    text-align: center;
+    background-color: var(--bg1-color);
+}
+
+.course{
+    text-align: center;
+    display: flex;
+    justify-content: space-around;
+    margin-top: 50px;
+    column-gap: 50px;
+}
+
+.course div{
+    background-color: rgb(48, 41, 41);
+    width: 160vh;
+    padding: 100px;
+    transition: 0.8s;
+}
+
+.course div:hover{
+    background-color: white;
+}
+
+.course div:hover h3{
+    color: black;
+}
+
+.course div:hover p{
+    color: black;
+}
+
+.course div:hover ul li{
+    color: black;
+}
+
+.course div:hover i{
+    color: orangered;
+}
+
+.course div h3{
+    color: white;
+    font-size: xx-large;
+    transition: 0.4s;
+}
+
+.course div i{
+    margin-top: -150px;
+    font-size: 30px;
+    margin-bottom: 20px;
+    transition: 0.4s;
+}
+
+.course div h2{
+    color: orangered;
+    font-size: 30px;
+    transition: 0.4s;
+}
+
+.course p{
+    color: whitesmoke;
+    transition: 0.4s;
+}
+
+.course div ul li{
+    font-size: larger;
+    font-weight: 400;
+    color: whitesmoke;
+    transition: 0.4s;
+}
+
+/*---------CLASSES----------*/
+
+.classes{
+    min-height: 100vh;
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg2-color);
+}
+
+.our-class{
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-around;
+    column-gap: 50px;
+}
+
+.our-class img{
+    width:550px;
+    height: 300px;
+}
+
+.our-class h2{
+    color: white;
+    font-size: 30px;
+    font-style: oblique;
+}
+
+.col-1 div{
+    margin-top: 70px;
+    background-color: var(--bg1-color);
+}
+
+.col-2 div{
+    margin-top: 70px;
+    background-color: var(--bg1-color);
+}
+
+/*--------------CONTACT-----------*/
+
+.contact{
+    min-height: 40vh;
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg2-color);
+}
+
+.mail{
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+}
+
+.mail div p{
+    margin-left: 60px;
+    margin-top: 20px;
+    color: white;
+    font-size: larger;
+}
+
+.mail div i{
+    margin-right: 8px;
+}
+
+.mail div.social-media{
+    margin-left: 60px;
+    margin-top: 10px;
+}
+
+.input-user{
+    flex-basis: 60%;
+}
+
+.input-user form{
+    width: 100%;
+}
+
+form input, form textarea{
+    width:100% ;
+    border:0 ;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top:10px;
+    background-color: rgb(48, 41, 41);
+}
+
+.input-user form button{
+    width: 150px;
+    height: 40px;
+    font-size: 15px;
+    font-weight:600;
+    background-color: rgb(48, 41, 41);
+    border-radius: 10px;
+    border-style: solid;
+}
+
+.input-user form button:hover{
+    background-color: orangered;
+    color: white;
+}
