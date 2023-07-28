@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+        <title>{% block title %}Management tool{% endblock  %}</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/static/css/style.css">
+        <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    </head>
+    <body>
+        <div class='side-menu'>
+            <div class='header-side-menu'>
+                <div class='info'>
+                    <img class='avatar_img' src='/static/image/avatar.png'>
+                    <div class='linked-name name'>
+                        <span>{{current_user.username}}</span>
+                        <p>{{current_user.role}}</p>
+                    </div>
+                </div>
+                <i class="uil uil-angle-right" id='side-menu-btn'></i>
+            </div>
+            <ul>
+                <li {% block nav_link_main %}{% endblock%} id='list-menu-btn'><a href="{{ url_for('views.main', main_code=main_code)}}"><i class="uil uil-estate"></i><span class='linked-name'>Main Projects</span></a>
+                    <span class='tooltip'>Main Projects</span>
+                </li>
+
+                <li {% block nav_link_task %}{% endblock%}><a href="{{ url_for('views.my_tasks', main_code=main_code)|replace('main_code=', '') }}"><i class="uil uil-calendar-alt"></i><span class='linked-name'>My Tasks</span></a>
+                    <span class='tooltip'>My Tasks</span>
+                </li>
+
+                <li {% block nav_link_group %}{% endblock%} ><a href="{{ url_for('views.members', main_code=main_code)}}" ><i class="uil uil-user"></i><span class='linked-name'>Member</span></a>
+                    <span class='tooltip'>Member</span>
+                </li>
+
+                <li {% block nav_link_chat %}{% endblock%} ><a href="{{ url_for('views.chat', main_code=main_code)}}" ><i class="uil uil-chat"></i><span class='linked-name'>Group chat</span></a>
+                    <span class='tooltip'>Group chat</span>
+                </li>
+
+                <li><a ><i class="uil uil-copy-landscape"></i><span class='linked-name'>Duplicate</span></a>
+                    <span class='tooltip'>Duplicate</span>
+                </li>
+
+                <li style="top: 35%;transform: translateY(-50%);"><a href='/logout'><i class="uil uil-signout"></i><span class='linked-name'>Logout</span></a>
+                    <span class='tooltip'>Logout</span>
+                </li>
+            </ul>
+        </div>
+
+
+
+        <div class="base">
+            {% block content %}{% endblock  %}
+        </div>
+
+
+
+        {% with  messages =get_flashed_messages(with_categories=True) %}
+          {% if messages %}
+            {% for  category, message in messages %}
+            {% if category=='error' %}
+            <div class="alert alert-danger alert-dismissable fade show" style="position: absolute;" role='alert'>
+              {{message}}
+              
+            </div>
+            {% elif category=='success' %}
+            <div class="alert alert-success alert-dismissable fade show" style="position: absolute;left:6rem;" role='alert'>
+              {{message}}
+              
+            </div>
+            {% endif %}
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+        
+        <script src="/static/js/script.js" async defer></script>
+        <script src="/static/js/side_menu.js" async defer></script>
+        
+        <script> 
+            function setRoleFromURL() {
+                var urlParams = new URLSearchParams(window.location.search);
+                var role = urlParams.get('role');
+                if (role) {
+                  var selectElement = document.getElementById('role');
+                  var optionElement = selectElement.querySelector('option[value="' + role + '"]');
+                  if (optionElement) {
+                    optionElement.selected = true;
+                  }
+                }
+              }
+              
+            document.addEventListener('DOMContentLoaded', setRoleFromURL);
+
+
+            document.addEventListener('DOMContentLoaded', function() {
+              const closeButtons = document.querySelectorAll('.alert .close');
+              
+              closeButtons.forEach(function(button) {
+                button.addEventListener('click', function() {
+                  const alert = this.parentNode;
+                  alert.classList.remove('show');
+                });
+              });
+            });
+        </script>
+    </body>
+</html>

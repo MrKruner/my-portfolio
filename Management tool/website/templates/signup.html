@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+        <title>Management tool</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="../static/css/style.css">
+        <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
+    </head>
+    <body>
+        <div class='signup_container'>
+            <form class='signup_warpper' action="{{ url_for('views.signup') }}" id='form' method="POST">
+                <div class='signup_data'>
+                    <h2 class='signup_title'>Sign Up</h2>
+                    <div>
+                        <div class='signup_form'>
+                            <div class='signup_content'>
+                                <input type='text' class='signup_input' id='username' name='username'required>
+                                <label for='username' class='signup_label'>UserName</label>
+                            </div>
+
+                            <div class='signup_content'>
+                                <input type='email' class='signup_input' id='email' name='email'required>
+                                <label for='email' class='signup_label'>Email</label>
+                            </div>
+
+                            <div class='signup_content'>
+                                <input type='password' class='signup_input' id='password' name='password' required>
+                                <label for='password' class='signup_label'>Password</label>
+                            </div>
+
+                            <div>
+                                <label for="role">You are:</label>
+                                <select class='signup_select' id="role" name="role" required>
+                                    <option value="" disabled selected>Select Role</option>
+                                    <option value="manager">Manager</option>
+                                    <option value="employee">Employee</option>
+                                </select>
+                            </div>
+                            <div class='sign-login' style='margin-top:0;'>
+                                <a href='/login' class='signup_btn sign-login_link' style='top:30px'><i class="uil uil-arrow-left"></i>Login</a>
+                                <span class='signup_btn' id='signup-btn'>Sign Up<i class="uil uil-arrow-to-right"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="access_code">
+                    <h2 class='signup_title'>Access Code</h2>
+                    <div class='signup_form'>
+                        <div class="join">
+                            <label for="join" style='font-size:1.25rem'>Type a code</label>
+                            <input class='signup_input' style='margin-top:10px' type="text" id="code" name="code" placeholder="Enter Room Code" >
+                            <button class='code_btn' type="submit" name='join'>Join a  Room</button>
+                        </div>
+                        <button class='code_btn' type="submit" name='create'>Create a Room</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+
+        {% with  messages =get_flashed_messages(with_categories=True) %}
+          {% if messages %}
+            {% for  category, message in messages %}
+            {% if category=='error' %}
+            <div class="alert alert-danger alert-dismissable fade show" style="position: absolute;" role='alert'>
+              {{message}}
+              <button type='button' class='close' data-dismiss="alert">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            {% elif category=='success' %}
+            <div class="alert alert-success alert-dismissable fade show" style="position: absolute;" role='alert'>
+              {{message}}
+              <button type='button' class='close' data-dismiss="alert">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            {% endif %}
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+        <script src="../static/js/script.js" async defer></script>
+        <script src="../static/js/form.js" async defer></script>
+        <script>
+          const urlSearchParams = new URLSearchParams(window.location.search);
+          const roleValue = urlSearchParams.get('role');
+          var selectElement = document.getElementById('role');
+          var optionElement = selectElement.querySelector('option[value="' + roleValue + '"]');
+          optionElement.selected = true;
+        </script>
+          
+          
+    </body>
+</html>

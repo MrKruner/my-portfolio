@@ -1,0 +1,246 @@
+{% extends "base.html" %} {% block title %}Main{% endblock %}
+
+{% block nav_link_main %}class='active_nav'{% endblock%}
+
+{% block content %}
+<div class='main'>
+    <div class='main_container container grid'>
+        <h2 class='title'>Main project<span style='color: #888;font-size: 0.75rem;margin-left:1.5rem;'> Room code: {{main_code}}</span></h2>
+        <div class='project_display grid'>
+            <div class='project' id='not_started'>
+                <div class='project_header'>
+                    <h3 class='project_progress'>Not started</h3>
+                    <i class="uil uil-plus-circle project-add_btn" id='btn'></i>
+                </div>
+                <div class='projects'>
+                    {% if projects %}
+                        {% for project in projects %}
+                            {% if project.process == 'not_started' and current_user in project.members %}
+                            <div class='each_project grid' data-project-id ='{{project.id}}' draggable='true'>
+                                <h2>{{ project.projectName }}</h2> 
+                                <p class='leader'>Leader: {{project.leader.username}}</p>
+                                 
+                                {% for member in project.members %}
+                                    <p style='display:none' class='members'>{{member.username}}</p>
+                                {% endfor %}
+
+                                <p class='content'>{{project.content}}</p>
+                                <div style='color: var(--fifth-color);'>
+                                    <p style='margin-top: 0.5rem'>completed by: <i class="uil uil-schedule"></i>{{ project.endDate.strftime('%Y-%m-%d')}}</p>
+                                </div>
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <p>No projects found.</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class='project' id='planning'>
+                <div class='project_header'>
+                    <h3 class='project_progress'>Planning</h3>
+                </div>
+                <div class='projects'>
+                    {% if projects %}
+                        {% for project in projects %}
+                            {% if project.process == 'planning' and current_user in project.members %}
+                            <div class='each_project grid' data-project-id ='{{project.id}}' draggable='true'>
+                                <h2>{{ project.projectName }}</h2> 
+                                <p class='leader'>Leader: {{project.leader.username}}</p>
+                                 
+                                {% for member in project.members %}
+                                    <p style='display:none' class='members'>{{member.username}}</p>
+                                {% endfor %}
+
+                                <p class='content'>{{project.content}}</p>
+                                <div style='color: var(--fifth-color);'>
+                                    <p style='margin-top: 0.5rem'>completed by: <i class="uil uil-schedule"></i>{{ project.endDate.strftime('%Y-%m-%d')}}</p>
+                                </div>
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <p>No projects found.</p>
+                    {% endif %}
+                </div>
+                
+            </div>
+
+            <div class='project' id='execute'>
+                <div class='project_header'>
+                    <h3 class='project_progress'>Execute</h3>
+                </div>
+                <div class='projects'>
+                    {% if projects %}
+                        {% for project in projects %}
+                            {% if project.process == 'execute' and current_user in project.members %}
+                            <div class='each_project grid' data-project-id ='{{project.id}}' draggable='true'>
+                                <h2>{{ project.projectName }}</h2> 
+                                <p class='leader'>Leader: {{project.leader.username}}</p>
+                                 
+                                {% for member in project.members %}
+                                    <p style='display:none' class='members'>{{member.username}}</p>
+                                {% endfor %}
+
+                                <p class='content'>{{project.content}}</p>
+                                <div style='color: var(--fifth-color);'>
+                                    <p style='margin-top: 0.5rem'>completed by: <i class="uil uil-schedule"></i>{{ project.endDate.strftime('%Y-%m-%d')}}</p>
+                                </div>
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <p>No projects found.</p>
+                    {% endif %}
+                </div>
+                
+            </div>
+
+            <div class='project' id='completed'>
+                <div class='project_header'>
+                    <h3 class='project_progress'>Completed</h3>
+                </div>
+                <div class='projects'>
+                    {% if projects %}
+                        {% for project in projects %}
+                            {% if project.process == 'completed' and current_user in project.members %}
+                            <div class='each_project grid' data-project-id ='{{project.id}}' draggable='true'>
+                                <h2>{{ project.projectName }}</h2> 
+                                <p class='leader'>Leader: {{project.leader.username}}</p>
+                                 
+                                {% for member in project.members %}
+                                    <p style='display:none' class='members'>{{member.username}}</p>
+                                {% endfor %}
+
+                                <p class='content'>{{project.content}}</p>
+                                <div style='color: var(--fifth-color);'>
+                                    <p style='margin-top: 0.5rem'>completed by: <i class="uil uil-schedule"></i>{{ project.endDate.strftime('%Y-%m-%d')}}</p>
+                                </div>
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <p>No projects found.</p>
+                    {% endif %}
+                </div>
+
+                
+            </div>
+        </div>
+
+        <div class="project_delete" id='delete'>
+            <i class="uil uil-trash-alt" id='trash-icon'></i>
+        </div>
+    </div>
+
+</div>
+
+<div class='new_project_popup_container popup_container'>
+    <div class='new_project_data'>
+        <form action="{{url_for('views.new_project', main_code=main_code)}}" method='POST' class='new_project_form'>
+            <div class="form-header">
+                <h1 class="form-title">New Project</h1>
+                <i class="uil uil-times" id='close_btn' ></i>
+            </div>
+            <label for="projectName">Name:</label>
+            <input type="text" id="projectName" name="projectName" required>
+            <br>
+            <label for="content">Content:</label>
+            <textarea id="content" name="content" required></textarea>    
+            
+            <div style='display:flex' >
+                <div>
+                    <label for='leader'>Leader:</label>
+                    <select style='width: 150px;height: 25px;'
+                    name="leader" id="leader">
+                        <option>--Select Leader</option>
+                        {% for user in users %}
+                        <option value="{{ user.id }}">{{ user.username }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div style='margin-left:3rem'>
+                    <label for='member'>Members:</label>
+                    <ul class='project_member_selector'>
+                        {% for user in users %}
+                        <li>
+                            <input type="checkbox" name="users" value="{{ user.id }}" id="user">
+                            <label style='margin-left:10px' for="user">{{ user.username }}</label>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <br>
+            <label for="endDate">End Date:</label>
+            <input type="date" id="endDate" name="endDate" required>
+            <br>
+            <input type="submit" value="Save">
+        </form>
+    </div>
+</div>
+
+<!----Project MORE DETAIL---->
+<div class="popup_container task_detail_popup_container">
+    <div class='popup_content' id='task_detail_popup'>
+    </div>
+</div>
+
+<script src="/static/js/drag_drop.js" async defer></script>
+<script type="text/javascript">
+    
+    let project_all = document.querySelectorAll('.each_project');
+    let detailPopup = document.getElementById('task_detail_popup');
+    let project_detail_popup_container = document.querySelector('.task_detail_popup_container')
+   
+
+
+    project_all.forEach(function(project) {
+        project.addEventListener('click', function(e){
+            var projectTitle = this.querySelector('h2').textContent;
+            var projectContent = this.querySelector('.content').textContent;
+            var projectLeader = this.querySelector('.leader').textContent.trim();
+            var projectMembers = this.querySelectorAll('.members');
+            
+            //Loop to get members's username
+            var memberUsernames = [];
+            projectMembers.forEach(function(member) {
+                memberUsernames.push(member.textContent.trim());
+            });
+
+            ///Displaying the task in details
+            detailPopupCreate(projectTitle, projectContent,projectLeader,memberUsernames)
+            project_detail_popup_container.classList.add('active');
+
+            ///Close BTN popup
+            const projectClosePopup = document.querySelector('.task_close_btn');
+
+            projectClosePopup.onclick = function() {
+                project_detail_popup_container.classList.remove('active');
+            }
+            
+        });
+    });
+
+
+    function detailPopupCreate(projectTitle, projectContent,projectLeader, projectMembers) {
+        const content = `
+        <div class="task_detail_popup_data">
+            <h2>${projectTitle}</h2> <i class="uil uil-times task_close_btn" id='close_btn' style='left: 97%;'></i>
+            <div style='margin-top: -3rem'>
+                <p>${projectLeader}</p>
+                <p>Members: ${projectMembers.join(', ')}</p>
+            </div>
+            <p style='margin-top:3rem'>${projectContent}</p>
+        </div>`
+
+        detailPopup.innerHTML = content;
+    }
+
+    
+</script>
+
+{% endblock  %}

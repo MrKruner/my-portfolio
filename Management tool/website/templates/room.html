@@ -1,0 +1,137 @@
+{% extends "base.html" %} {% block title %}Main{% endblock %}
+
+{% block nav_link_chat %}class='active_nav'{% endblock%}
+
+{% block content %}
+<div class='main'>
+    <div class='chat'>
+        <div class='rooms'>
+            <div class='rooms_header'>
+                <h2>Chat</h2>
+                <div style='display:flex; gap:1.5rem;'>
+                    <i class="uil uil-users-alt room_icon" onclick="joinRoom()"></i>
+                    <i class="uil uil-book-medical room_icon" onclick="createRoom()"></i>
+                </div>
+            </div>
+            <ul id="roomList">
+              {% for room in rooms %}
+              <li class="list-each_room">
+                <a href= "{{url_for('views.join_room_check', room_code = room.code , main_code=main_code )}}">
+                <div><span class="room-code">{{room.code}}</span> <span class="room-name">{{room.name}}</span></div>
+                </a>
+              </li>
+              {% endfor %}
+            </ul>
+        </div>
+
+        <div class='chat_box'>
+            <div class='messages' id='messages'>
+              {% for message in messages %}
+              <div class="text">
+                <p>
+                    <strong>{{message.user.username}}</strong>: {{message.content}}
+                </p>
+                <span class="timestamp"> {{message.timestamp.strftime('%B %d, %Y')}} </span>
+              </div>
+              {% endfor %}
+            </div>
+            <div class='message_box'>
+                <input type="text" row='3' placeholder='Messages' name='message'id='message'>
+                <button type='button' id = 'send-btn' onclick='sendMessage()' 
+                style="
+                margin-left: 15px;
+                border: 1px solid black;
+                padding: 5px 10px;
+                border-radius: 8px;
+                cursor:pointer;"> Send </button> 
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.js"></script>
+<script>
+  
+  const socket = io({ query: { room_code: '{{ room_code }}' } });
+
+  // Get the room code from the URL query parameters
+  const roomCode = '{{room_code}}'
+
+  // Send the room code to the server to join the room
+  socket.emit('join_room', { room_code: roomCode });
+
+  function joinRoom() {
+    var roomCode = prompt('Enter room code:');
+    var mainCode = '{{main_code}}';
+
+    socket.emit('handle_join_room', { room_code: roomCode, main_code: mainCode });
+  }
+
+  function createRoom() {
+    var roomName = prompt("Enter the room name:");
+    var main_code = '{{main_code}}';
+
+    socket.emit('create_room', {room_name: roomName, main_code: main_code });
+    location.reload();
+  }
+
+  socket.on('room_creation_failed', (data) => {
+    const errormessage = data.message;
+    alert(errormessage);
+  });
+
+  // Handle event for room not found
+  socket.on('room_not_found', (data) => {
+    // Handle the event, e.g., display an error message
+    const errormessage = data.message;
+    alert(errormessage);
+  });
+
+  // Create messages
+  const messages = document.getElementById('messages');
+
+  const createMessage = (name, msg, timestamp) => {
+    const content = `
+    <div class="text">
+        <p>
+            <strong>${name}</strong>: ${msg}
+        </p>
+        ${timestamp ? `<span class="timestamp">${timestamp}</span>` : ''}
+    </div>
+    `;
+    messages.innerHTML += content;
+  };
+
+  socket.on('message', (data) => {
+    const timestamp = data.timestamp ? new Date(data.timestamp).toLocaleString() : null;
+    console.log(timestamp);
+
+    createMessage(data.name, data.message, timestamp);
+  })
+
+  const sendMessage = () => {
+    const message = document.getElementById('message');
+    if (message.value == "") return;
+    socket.emit('message', {message: message.value, room_code: roomCode});
+    message.value = "";
+  };
+
+</script>
+
+<script type="text/javascript">
+  const inputField = document.getElementById('message');
+  const sendButton = document.getElementById('send-btn');
+
+  inputField.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter' || event.keyCode === 13) {
+      
+      event.preventDefault();
+
+      sendButton.click();
+    }
+  });
+</script>
+
+
+{% endblock  %}
