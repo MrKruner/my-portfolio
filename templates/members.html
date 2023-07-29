@@ -1,0 +1,56 @@
+{% extends "base.html" %} {% block title %}Main{% endblock %}
+
+{% block nav_link_group %}class='active_nav'{% endblock%}
+
+{% block content %}
+<div class='main'>
+    <div class='main_container container grid'>
+        <div class='main_header'>
+            <h2 class='title'>Manage employees<span style='color: #888;font-size: 0.75rem;margin-left:1.5rem;'> Room code: {{main_code}}</span></h2>
+        </div>
+        <div class='members_container grid'>
+            <div class='members_info member_display'>
+                <table class='table'>
+                    <thead>
+                        <tr>
+                        <th>Username</th>
+                        <th>Contact</th>
+                        <th>Department</th>
+                        <th>Date Joined</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for member in members%}
+                        <tr>
+                        <td>{{ member.username }}</td>
+                        <td>{{ member.email }}</td>
+                        <td>{{ member.role }}</td>
+                        <td>{{ member.date_joined }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class='members_role member_display'>
+                <h3 class='members_role_title'>Managers</h3>
+                <ul style="margin-left: 20px; margin-top:15px;">
+                {% for manager in managers %}
+                <li>{{ manager.username }}</li>
+                {% endfor %}
+                </ul>
+                <hr>
+                <br>
+                <h3 class='members_role_title'>Employees</h3>
+                <ul style="margin-left: 20px; margin-top:15px;">
+                {% for employee in employees %}
+                <li>{{ employee.username }}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{%endblock%}
